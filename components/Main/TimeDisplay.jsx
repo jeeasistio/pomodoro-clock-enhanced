@@ -4,8 +4,14 @@ import { Box, Typography } from '@material-ui';
 
 const TimeDisplay = ({ endTime, ticking, onTickHandle }) => {
   return (
-    <Box>
-      <Typography>
+    <Box
+      display="flex"
+      flexDirection="column"
+      textAlign="center"
+      p={4}
+    >
+    
+      <Typography paragraph variant="h4">
         {ticking ?
           <Moment 
             durationFromNow 
@@ -16,9 +22,19 @@ const TimeDisplay = ({ endTime, ticking, onTickHandle }) => {
         : '00:00'
         }
       </Typography>
-      <Box>
-        <Typography>{ticking ? 'Come Back' : 'Have a Break'}</Typography> 
-        {ticking && <Typography><Moment date={endTime} calendar interval={0}/></Typography>}
+      
+      <Box
+        display="flex"
+        justifyContent="center"
+      >
+        <Typography component="pre">
+          {ticking ? 'Come Back ' : 'Have a Break'}
+        </Typography> 
+        {ticking && 
+          <Typography style={{fontWeight: 500}}>
+            <Moment date={endTime} calendar interval={0}/>
+          </Typography>
+        }
       </Box>
     </Box>
   )

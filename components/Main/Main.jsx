@@ -1,50 +1,10 @@
 import React, { useReducer } from 'react';
+import { initialState, reducer } from '/state/state.js';
 import moment from 'moment';
 import TimeDisplay from './TimeDisplay.jsx';
 import TimeInput from './TimeInput.jsx';
 import TimeButtons from './TimeButtons.jsx';
 import { Box } from '@material-ui';
-
-const initialState = {
-  timeToBeAdded: {
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  },
-  endTime: moment().format(),
-  ticking: false
-}
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'START':
-      return {
-        ...state,
-        timeToBeAdded: {
-          hours: 0,
-          minutes: 0,
-          seconds: 0
-        }, 
-        endTime: action.payload.endTime,
-        ticking: true
-      }
-      case 'UPDATE_TIME':
-        return {
-          ...state,
-          timeToBeAdded: action.payload.timeToBeAdded
-        }
-        break;
-      case 'STOP':
-        return {
-          ...state,
-          ticking: false,
-          endTime: null
-        }
-        break;
-      default:
-        return state;
-  }
-}
 
 const Main = () => {
 
@@ -80,13 +40,44 @@ const Main = () => {
       }
     }
   })
+  
+  const addTime = (num) => {
+    ticking ?
+      dispatch({
+        type: 'ADD_TIME',
+        payload: {
+          endTime: moment(endTime).add(num, 'm').format()
+        }
+      })
+    : dispatch({
+      type: 'START',
+      payload: {
+        endTime: moment(endTime).add(num, 'm').format()
+      }
+    })
+  }
+  
+  const subtTime = (num) => {
+    dispatch({
+      type: 'SUBT_TIME',
+      payload: {
+        endTime: moment(endTime).subtract(num, 'm').format()
+      }
+    })
+  }
 
   return (
-    <Box component="main" display="flex" flexDirection="column">
+    <Box component="main">
       <TimeDisplay endTime={endTime} ticking={ticking} onTickHandle={onTickHandle} />
       <Box component="form" onSubmit={startTicking}>
         <TimeInput updateTime={updateTime} />
-        <TimeButtons stopTicking={stopTicking} ticking={ticking} />
+        <TimeButtons 
+          stopTicking={stopTicking} 
+          ticking={ticking}
+          endTime={endTime} 
+          addTime={addTime}
+          subtTime={subtTime}
+        />
       </Box>
     </Box>
   )
