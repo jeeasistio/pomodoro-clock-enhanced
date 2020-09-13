@@ -15,7 +15,6 @@ const TimeInput = ({ updateTime }) => {
           onChange={(e) => updateTime(e, type.toLowerCase())}
           type="number"
           label={type}
-          defaultValue={0}
           margin="normal"
         />
       ))}

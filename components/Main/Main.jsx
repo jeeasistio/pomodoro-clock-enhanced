@@ -11,7 +11,7 @@ const Main = () => {
   const [{ timeToBeAdded, endTime, ticking }, dispatch] = useReducer(reducer, initialState);
   
   const onTickHandle = () => {
-    if (moment().isSame(moment(endTime), 's')) {
+    if (moment().isSameOrAfter(moment(endTime), 's')) {
       dispatch({type: 'STOP'})
     }
   }

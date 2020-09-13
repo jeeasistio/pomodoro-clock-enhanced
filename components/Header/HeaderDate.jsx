@@ -4,8 +4,8 @@ import { Box, Typography } from '@material-ui';
 
 const HeaderDate = () => {
   return (
-    <Box textAlign="right">
-      <Typography variant="h6">
+    <Box textAlign={['center', 'right']} >
+      <Typography style={{fontWeight: 500}} >
         <Moment format="[Today is] dddd" />
       </Typography>
       <Typography>
